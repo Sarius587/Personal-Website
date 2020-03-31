@@ -1,0 +1,93 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Niels Pressel";
+}
+
+@section stylesheets {
+    <link rel="stylesheet" href="~/css/main_index.css" />
+}
+
+
+<div id="img-container" class="container-fluid">
+    <div class="bimage">
+        <div class="text-container h-100">
+            <div class="container p-5">
+                <h1>Niels Pressel</h1>
+                <p>I'm a self-taught software engineer currently in school living in Germany.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5 mb-5">
+    <div class="row mt-4">
+        <div class="col-md text-center">
+            <img class="m-3" src="~/res/web-black-48dp.svg" alt="frontend" width="50" height="50" />
+            <h4>Frontend</h4>
+            <ul class="text-left mt-4 w-75 mr-auto ml-auto">
+                <li>Android</li>
+                <li>Web</li>
+                <li>Windows desktop</li>
+                <li>Cross-platform desktop</li>
+            </ul>
+        </div>
+        <div class="col-md text-center">
+            <img class="m-3" src="~/res/memory-black-48dp.svg" alt="embedded_device" width="50" height="50"/>
+            <h4>Embedded / IoT</h4>
+            <ul class="text-left mt-4 w-75 mr-auto ml-auto">
+                <li>Raspberry Pi</li>
+                <li>Arduino</li>
+                <li>C/C++ low level algorithmic</li>
+                <li>Networking (MQTT, Protobuf)</li>
+            </ul>
+        </div>
+        <div class="col-md text-center">
+            <img class="m-3" src="~/res/school-black-48dp.svg" alt=" AI learning" width="50" height="50" />
+            <h4>AI</h4>
+            <ul class="text-left mt-4 w-75 mr-auto ml-auto">
+                <li>TensorFlow 2.0+</li>
+                <li>Image recognition</li>
+                <li>Data analysis</li>
+                <li>Deep Reinforcement Learning</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid bg-dark pt-5 pb-5">
+    <div class="container pt-3 pb-3">
+        <div class="timeline">
+            <div class="tl-container tl-left">
+                <div class="tl-content">
+                    <h3>2008</h3>
+                    <p>Entering primary school in Hannover</p>
+                </div>
+            </div>
+            <div class="tl-container tl-right">
+                <div class="tl-content">
+                    <h3>2012</h3>
+                    <p>Finishing primary school. Starting to visit St. Ursula-Schule Hannover (Highschool)</p>
+                </div>
+            </div>
+            <div class="tl-container tl-left">
+                <div class="tl-content">
+                    <h3>2018-2019</h3>
+                    <p>3 internships at CLAAS, a German company that produces harvesting machines.</p>
+                </div>
+            </div>
+            <div class="tl-container tl-right">
+                <div class="tl-content">
+                    <h3>2021</h3>
+                    <p>In 2021 I'll probably get my A-Levels and finish school.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/js/main_index.js"></script>
+}
+
