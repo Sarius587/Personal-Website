@@ -19,7 +19,6 @@ namespace PersonalWebsite.Pages
 
         public void OnGet()
         {
-            ViewData["Time"] = DateTime.Now.ToShortDateString();
         }
     }
 }
