@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using PersonalWebsite.GithubService;
 
 namespace PersonalWebsite
 {
@@ -24,7 +26,9 @@ namespace PersonalWebsite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddHttpClient<GithubClient>();
             services.AddHostedService<GithubUpdateService>();
+            services.AddDbContext<GithubRepositoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GithubRepositoryContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

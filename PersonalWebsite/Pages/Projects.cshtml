@@ -7,4 +7,21 @@
 
 <div class="container spacer">
     <h1>Projects</h1>
+
+    <div class="mt-5">
+        <h3>GitHub projects:</h3>
+        <ul class="list-group mt-4">
+            @foreach (GithubService.GithubRepository repo in Model.Repositories)
+            {
+                <a href="@repo.Url" class="list-group-item list-group-item-action">
+                    <div>
+                        <h4>@repo.Name</h4>
+                        <p>@repo.Description</p>
+                    </div>
+                </a>
+            }
+        </ul>
+    </div>
+    
+
 </div>
