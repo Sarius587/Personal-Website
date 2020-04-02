@@ -15,7 +15,8 @@ namespace PersonalWebsite.Migrations
                     GithubRepoId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true)
+                    Url = table.Column<string>(nullable: true),
+                    Readme = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

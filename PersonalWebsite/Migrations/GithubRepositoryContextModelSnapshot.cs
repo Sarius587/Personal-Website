@@ -18,7 +18,7 @@ namespace PersonalWebsite.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PersonalWebsite.GithubRepository", b =>
+            modelBuilder.Entity("PersonalWebsite.GithubService.GithubRepository", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,6 +32,9 @@ namespace PersonalWebsite.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Readme")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")

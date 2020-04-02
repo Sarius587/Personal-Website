@@ -10,18 +10,45 @@
 
     <div class="mt-5">
         <h3>GitHub projects:</h3>
-        <ul class="list-group mt-4">
-            @foreach (GithubService.GithubRepository repo in Model.Repositories)
-            {
-                <a href="@repo.Url" class="list-group-item list-group-item-action">
-                    <div>
-                        <h4>@repo.Name</h4>
-                        <p>@repo.Description</p>
+        <div class="list-group mt-4">
+            @foreach (GithubService.GithubRepository repo in Model.Repositories) {
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>@repo.Name</h4>
+                            <p>@repo.Description</p>
+                        </div>
+                        <div class="col-4 align-items-center">
+                            <button type="button" class="btn btn-primary float-right d-none d-md-block" data-toggle="modal" data-target="#readme-modal" data-src="@repo.Readme" data-link="@repo.Url">Readme</button>
+                            <a href="@repo.Url" class="btn btn-primary float-right d-md-none">Github</a>
+                        </div>
                     </div>
-                </a>
+                </div>
             }
-        </ul>
-    </div>
-    
+        </div>
 
+        <div class="modal fade" id="readme-modal" tabindex="-1" role="dialog" aria-labelledby="readme-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="readme-modal-label">Readme</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="body-content"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a class="btn btn-primary" id="github-link">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript" src="~/js/main_projects.js"></script>
+}

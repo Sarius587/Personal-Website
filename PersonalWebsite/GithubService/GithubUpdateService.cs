@@ -51,15 +51,24 @@ namespace PersonalWebsite.GithubService
         {
             string json = await _client.GetRepositoriesAsync();
 
+            if (json == null)
+                return;
+
             IList<GithubRepository> repos = new List<GithubRepository>();
             JArray obj = JArray.Parse(json);
             foreach (JToken repo in obj)
             {
                 RepositoryData data = repo.ToObject<RepositoryData>();
                 if (!data.Fork)
-                    repos.Add(new GithubRepository { GithubRepoId = data.Id, Name = data.Name, Description = data.Description, Url = data.Html_url });
+                {
+                    string readme_html = await _client.GetReadmeAsync("/repos/Sarius587/" + data.Name + "/readme");
+                    if (readme_html == null)
+                        return;
+                    repos.Add(new GithubRepository { GithubRepoId = data.Id, Name = data.Name, Description = data.Description, Url = data.Html_url, Readme = readme_html });
+                }
             }
 
+            
             using (var scope = _scopeFactory.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<GithubRepositoryContext>();

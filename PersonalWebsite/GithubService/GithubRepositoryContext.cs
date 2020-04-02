@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,15 @@ namespace PersonalWebsite.GithubService
         public string Name { get; set; }
         public string Description { get; set; }
         public string Url { get; set; }
+        public string Readme { get; set; }
+
+        public HtmlString ReadmeHtml
+        {
+            get
+            {
+                return new HtmlString(Readme);
+            }
+        }
 
         public override bool Equals(object obj)
         {
@@ -32,12 +42,13 @@ namespace PersonalWebsite.GithubService
                    GithubRepoId == repository.GithubRepoId &&
                    Name == repository.Name &&
                    Description == repository.Description &&
-                   Url == repository.Url;
+                   Url == repository.Url &&
+                   Readme == repository.Readme;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(GithubRepoId, Name, Description, Url);
+            return HashCode.Combine(GithubRepoId, Name, Description, Url, Readme);
         }
     }
 }
