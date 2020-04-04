@@ -28,6 +28,8 @@ a {
 -------------------------------------------------- */
 html {
   font-size: 14px;
+  margin-top: 0;
+  overflow-x: hidden;
 }
 @media (min-width: 768px) {
   html {
@@ -56,12 +58,12 @@ button.accept-policy {
 html {
   position: relative;
   min-height: 100%;
-  overflow-y: scroll;
+  width: 100vw;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 .footer {
   position: absolute;
@@ -75,3 +77,6 @@ body {
     padding-top: 70px !important;
 }
 
+#main-nav {
+    width: 100vw;
+}

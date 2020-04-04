@@ -1,0 +1,9 @@
+﻿@page "{id}"
+@model PersonalWebsite.Areas.Projects.Pages.ProjectDetail
+@{
+    ViewData["Title"] = Model.SelectedProject.Name + " - Niels Pressel";
+}
+
+<div class="spacer container">
+    <h1>@Model.SelectedProject.Name</h1>
+</div>

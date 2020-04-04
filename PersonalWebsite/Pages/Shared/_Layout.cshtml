@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css"/>
     @RenderSection("Stylesheets", required: false)
 </head>
-<body>
+<body id="root">
     <header>
         <nav id="main-nav" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow bg-white fixed-top">
             <div class="container">
@@ -23,7 +23,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Projects">Projects</a>
+                            <a class="nav-link text-dark" asp-area="Projects" asp-page="/Index">Projects</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Contact">Contact</a>

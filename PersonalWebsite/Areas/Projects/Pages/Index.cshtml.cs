@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PersonalWebsite.GithubService;
 
-namespace PersonalWebsite.Pages
+namespace PersonalWebsite.Areas.Projects.Pages
 {
-    public class ProjectsModel : PageModel
+    public class IndexModel : PageModel
     {
-        private readonly ILogger<ProjectsModel> _logger;
+        private readonly ILogger<IndexModel> _logger;
         private readonly GithubRepositoryContext _context;
 
         public IList<GithubRepository> Repositories { get; set; }
 
-        public ProjectsModel(ILogger<ProjectsModel> logger, GithubRepositoryContext context)
+        public IndexModel(ILogger<IndexModel> logger, GithubRepositoryContext context)
         {
             _logger = logger;
             _context = context;

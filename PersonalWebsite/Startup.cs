@@ -25,7 +25,11 @@ namespace PersonalWebsite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AddAreaPageRoute("Projects", "/Project_Detail", "Projects/{id}");
+                });
             services.AddHttpClient<GithubClient>();
             services.AddHostedService<GithubUpdateService>();
             services.AddDbContext<GithubRepositoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GithubRepositoryContext")));

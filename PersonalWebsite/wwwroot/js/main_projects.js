@@ -1,6 +1,4 @@
-﻿
-
-$('#readme-modal').on('show.bs.modal', (event) => {
+﻿$('#readme-modal').on('show.bs.modal', (event) => {
     var button = $(event.relatedTarget);
     var htmlStr = button.data('src');
     var link = button.data('link');

@@ -1,4 +1,4 @@
-﻿$(document).ready(() => {
+﻿$(() => {
     $('#main-nav').removeClass('box-shadow');
     $('#main-nav').removeClass('border-bottom');
 });
