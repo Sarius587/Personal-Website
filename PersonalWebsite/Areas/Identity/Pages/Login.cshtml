@@ -1,0 +1,17 @@
+﻿@page
+@model PersonalWebsite.Areas.Identity.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login - Niels Pressel";
+}
+
+<div class="spacer container">
+    <form method="post">
+        <div class="form-group">
+            Username:  <input asp-for="Username" class="form-control" /> <br />
+            Password: <input asp-for="Password" class="form-control" /><br />
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+</div>
+    
+

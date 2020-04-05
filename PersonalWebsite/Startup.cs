@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
+using PersonalWebsite.Auth;
 using PersonalWebsite.GithubService;
+using PersonalWebsite.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace PersonalWebsite
 {
@@ -30,13 +30,34 @@ namespace PersonalWebsite
                 {
                     options.Conventions.AddAreaPageRoute("Projects", "/Project_Detail", "Projects/{id}");
                 });
+
+            services.AddDbContext<UserDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("UserContext")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<UserDbContext>()
+                .AddDefaultTokenProviders();
+
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Login";
+                options.AccessDeniedPath = $"/Identity/AccessDenied";
+            });
+
+
             services.AddHttpClient<GithubClient>();
             services.AddHostedService<GithubUpdateService>();
             services.AddDbContext<GithubRepositoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GithubRepositoryContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -54,12 +75,63 @@ namespace PersonalWebsite
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
             });
+
+            CreateRolesAsync(serviceProvider).Wait();
         }
+
+        private async Task CreateRolesAsync(IServiceProvider serviceProvider)
+        {
+            var adminData = new AdminData();
+            Configuration.GetSection("AdminData").Bind(adminData);
+
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            string[] roleNames = { "Admin", "Member" };
+            IdentityResult roleResult;
+
+            foreach (string name in roleNames)
+            {
+                var roleExists = await roleManager.RoleExistsAsync(name);
+
+                if (!roleExists)
+                {
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(name));
+                }
+            }
+
+            var adminUser = await userManager.FindByEmailAsync("admin@email.com");
+
+            if (adminUser == null)
+            {
+                var powerUser = new ApplicationUser
+                {
+                    UserName = "Admin",
+                    Email = "admin@email.com",
+                };
+                string adminPassword = "P@$$w0rd";
+
+                var createPowerUser = await userManager.CreateAsync(powerUser, adminPassword);
+
+                if (createPowerUser.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(powerUser, "Admin");
+                }
+            }
+        }
+    }
+
+    class AdminData
+    {
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

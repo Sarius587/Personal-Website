@@ -1,0 +1,19 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "GithubRepositoryContext": "Server=(localdb)\\mssqllocaldb;Database=GithubRepositoryContext-bc;Trusted_Connection=True;MultipleActiveResultSets=true",
+    "UserContext": "Server=(localdb)\\mssqllocaldb;Database=UserContext-bc;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "AdminData": {
+    "Username": "admin",
+    "Email": "admin@email.com",
+    "Password": "P@$$w0rd"
+  }
+}
