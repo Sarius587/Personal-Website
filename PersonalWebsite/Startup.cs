@@ -28,7 +28,8 @@ namespace PersonalWebsite
             services.AddRazorPages()
                 .AddRazorPagesOptions(options =>
                 {
-                    options.Conventions.AddAreaPageRoute("Projects", "/Project_Detail", "Projects/{id}");
+                    options.Conventions.AddAreaPageRoute("Projects", "/Project_Detail", "Projects/Detail/{id}");
+                    options.Conventions.AddAreaPageRoute("Projects", "/Project_Edit", "Projects/Edit/{id}");
                 });
 
             services.AddDbContext<UserDbContext>(options =>
@@ -107,18 +108,17 @@ namespace PersonalWebsite
                 }
             }
 
-            var adminUser = await userManager.FindByEmailAsync("admin@email.com");
+            var adminUser = await userManager.FindByEmailAsync(adminData.Email);
 
             if (adminUser == null)
             {
                 var powerUser = new ApplicationUser
                 {
-                    UserName = "Admin",
-                    Email = "admin@email.com",
+                    UserName = adminData.Username,
+                    Email = adminData.Email,
                 };
-                string adminPassword = "P@$$w0rd";
 
-                var createPowerUser = await userManager.CreateAsync(powerUser, adminPassword);
+                var createPowerUser = await userManager.CreateAsync(powerUser, adminData.Password);
 
                 if (createPowerUser.Succeeded)
                 {

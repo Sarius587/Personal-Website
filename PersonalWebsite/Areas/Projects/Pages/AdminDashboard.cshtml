@@ -1,5 +1,40 @@
 ﻿@page
 @model PersonalWebsite.Areas.Projects.Pages.AdminDashboardModel
 @{
-    ViewData["Title"] = "Admin Page";
+    ViewData["Title"] = "Admin Dashboard";
 }
+
+<div class="container spacer">
+    <h1>Admin Dashboard</h1>
+
+    <h3 class="mt-4">Currently available projects</h3>
+    
+    <div class="list-group mt-4">
+        @foreach (var repo in Model.Repositories)
+        {
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col-8">
+                        <h5>@repo.Name</h5>
+                    </div>
+                    <div class="col-4 align-items-center">
+                        <a href="~/Projects/Edit/@repo.RepositoryId" class="btn btn-primary float-right">Edit</a>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3 float-right align-items-center">
+                        Readme
+                        <img src="~/res/@(repo.Readme == null ? "close-red-48dp.svg" : "done-green-48dp.svg")" width="20" alt="available"  class="ml-2" />
+                    </div>
+                    <div class="col-3 float-right align-items-center">
+                        Custom Experience
+                        <img src="~/res/@(repo.AdditionalRepositoryData.CustomExperience == null ? "close-red-48dp.svg" : "done-green-48dp.svg")" width="20" alt="missing" class="ml-2" />
+                    </div>
+                    <div class="col-6 text-right">
+                        Edited @repo.AdditionalRepositoryData.LastEdit
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

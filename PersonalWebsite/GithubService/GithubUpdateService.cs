@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
@@ -54,31 +55,54 @@ namespace PersonalWebsite.GithubService
             if (json == null)
                 return;
 
-            IList<GithubRepository> repos = new List<GithubRepository>();
-            JArray obj = JArray.Parse(json);
-            foreach (JToken repo in obj)
-            {
-                RepositoryData data = repo.ToObject<RepositoryData>();
-                if (!data.Fork)
-                {
-                    string readme_html = await _client.GetReadmeAsync("/repos/Sarius587/" + data.Name + "/readme");
-                    if (readme_html == null)
-                        return;
-                    repos.Add(new GithubRepository { GithubRepoId = data.Id, Name = data.Name, Description = data.Description, Url = data.Html_url, Readme = readme_html });
-                }
-            }
-
-            
             using (var scope = _scopeFactory.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<GithubRepositoryContext>();
-                IList<GithubRepository> db_repos = await context.Repos.ToListAsync();
+
+                IList<GithubRepository> repos = new List<GithubRepository>();
+                JArray obj = JArray.Parse(json);
+                foreach (JToken repo in obj)
+                {
+                    RepositoryData data = repo.ToObject<RepositoryData>();
+                    if (!data.Fork)
+                    {
+                        string readme_html = await _client.GetReadmeAsync("/repos/Sarius587/" + data.Name + "/readme");
+                        AdditionalRepositoryData additionalData = await context.AdditionalData.SingleOrDefaultAsync(a => a.RepositoryId == data.Id);
+                        int id = -1;
+                        if (additionalData == null)
+                        {
+                            AdditionalRepositoryData newAdditionalData = new AdditionalRepositoryData { RepositoryId = data.Id, CustomExperience = null, LastEdit = DateTime.UtcNow };
+                            await context.AdditionalData.AddAsync(newAdditionalData);
+                            await context.SaveChangesAsync();
+                            id = newAdditionalData.Id;
+                        }
+                        else
+                        {
+                            id = additionalData.Id;
+                        }
+
+                        repos.Add(new GithubRepository
+                        {
+                            RepositoryId = data.Id,
+                            Name = data.Name,
+                            Description = data.Description,
+                            Url = data.Html_url,
+                            Readme = readme_html,
+                            AdditionalRepositoryDataId = id
+                        });
+                    }
+                }
+
+                
+            
+                
+                IList<GithubRepository> db_repos = await context.Repositories.ToListAsync();
 
                 var add_list = repos.Except(db_repos);
                 var remove_list = db_repos.Except(repos);
 
-                context.Repos.AddRange(add_list);
-                context.Repos.RemoveRange(remove_list);
+                context.Repositories.AddRange(add_list);
+                context.Repositories.RemoveRange(remove_list);
                 await context.SaveChangesAsync();
             }
         }

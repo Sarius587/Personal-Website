@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.EntityFrameworkCore;
 using PersonalWebsite.GithubService;
 
 namespace PersonalWebsite.Areas.Projects.Pages
@@ -27,7 +27,7 @@ namespace PersonalWebsite.Areas.Projects.Pages
                 return NotFound();
             }
 
-            SelectedProject = _context.Repos.SingleOrDefault(r => r.Id == id);
+            SelectedProject = await _context.Repositories.Include(r => r.AdditionalRepositoryData).FirstOrDefaultAsync(r => r.RepositoryId == id);
 
             if (SelectedProject == null)
             {

@@ -3,3 +3,5 @@ PersonalWebsite/obj
 PersonalWebsite/appsettings.json
 PersonalWebsite/appsettings.Development.json
 .vs/
+
+*.pptx

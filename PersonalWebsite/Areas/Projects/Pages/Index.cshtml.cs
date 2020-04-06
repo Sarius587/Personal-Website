@@ -25,7 +25,7 @@ namespace PersonalWebsite.Areas.Projects.Pages
 
         public async Task OnGetAsync()
         {
-            Repositories = await _context.Repos.ToListAsync();
+            Repositories = await _context.Repositories.ToListAsync();
         }
     }
 }
