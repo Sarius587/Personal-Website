@@ -6,21 +6,23 @@
 }
 
 @section stylesheets {
-    <link rel="stylesheet" href="~/lib/prismjs/css/prism.css" />
 }
 
 <div class="container spacer">
     <h1>Edit '@(Model.SelectedProject.Name)'</h1>
 
-    <form method="post" class="mt-4" id="edit-form">
+    <form method="post" class="mt-4" id="edit-form" enctype="multipart/form-data">
         <div class="form-group">
             <div id="editor" class="w-100"></div>
-            <textarea asp-for="Data.CustomExperience" class="form-control d-none"></textarea>
+            <textarea asp-for="Upload.AdditionalRepositoryData.CustomExperience" class="form-control d-none"></textarea>
         </div>
         <div class="form-group">
-            <select asp-for="Data.TextFormat" asp-items="Html.GetEnumSelectList<ExperienceTextFormat>()" class="form-control mt-3 w-25" id="text-format-select" onchange="OnLanguageChange(this.value)"></select>
+            <select asp-for="Upload.AdditionalRepositoryData.TextFormat" asp-items="Html.GetEnumSelectList<ExperienceTextFormat>()" class="form-control mt-3 w-25" id="text-format-select" onchange="OnLanguageChange(this.value)"></select>
         </div>
-        <button type="submit" class="btn btn-primary float-right mt-3">Edit</button>
+        <div class="form-group">
+            <input asp-for="Upload.PostImages" type="file" accept="image/*" multiple />
+        </div>
+        <button asp-page-handler="Upload" type="submit" class="btn btn-primary float-right mt-3">Edit</button>
     </form>
 
 
@@ -28,7 +30,6 @@
 </div>
 
 @section scripts {
-    <!--<script type="text/javascript" src="~/lib/prismjs/js/prism.js"></script>-->
     <script>var require = { paths: { 'vs': '/lib/monaco-editor/min/vs' } };</script>
     <script type="text/javascript" src="~/lib/monaco-editor/min/vs/loader.js"></script>
     <script type="text/javascript" src="~/lib/monaco-editor/min/vs/editor/editor.main.nls.js"></script>

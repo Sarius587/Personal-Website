@@ -25,8 +25,7 @@ var init = function () {
     else if (type === 1) {
         monaco.editor.setModelLanguage(editor.getModel(), 'html');
     }
-
-    editor.setValue($('#Data_CustomExperience').val());
+    editor.setValue($('#Upload_AdditionalRepositoryData_CustomExperience').val());
 };
 
 function OnLanguageChange(value) {
@@ -40,7 +39,7 @@ function OnLanguageChange(value) {
 }
 
 $('#edit-form').submit(function (e) {
-    $('#Data_CustomExperience').val(editor.getValue());
+    $('#Upload_AdditionalRepositoryData_CustomExperience').val(editor.getValue());
 });
 
 window.addEventListener("load", init);
