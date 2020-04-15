@@ -43,6 +43,26 @@ namespace PersonalWebsite.Migrations
                     b.ToTable("AdditionalData");
                 });
 
+            modelBuilder.Entity("PersonalWebsite.GithubService.CustomExperienceImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AdditionalRepositoryDataId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdditionalRepositoryDataId");
+
+                    b.ToTable("CustomExperienceImages");
+                });
+
             modelBuilder.Entity("PersonalWebsite.GithubService.GithubRepository", b =>
                 {
                     b.Property<int>("RepositoryId")
@@ -73,6 +93,13 @@ namespace PersonalWebsite.Migrations
                     b.HasIndex("AdditionalRepositoryDataId");
 
                     b.ToTable("Repositories");
+                });
+
+            modelBuilder.Entity("PersonalWebsite.GithubService.CustomExperienceImage", b =>
+                {
+                    b.HasOne("PersonalWebsite.GithubService.AdditionalRepositoryData", null)
+                        .WithMany("CustomExperienceImages")
+                        .HasForeignKey("AdditionalRepositoryDataId");
                 });
 
             modelBuilder.Entity("PersonalWebsite.GithubService.GithubRepository", b =>

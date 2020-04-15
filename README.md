@@ -1,3 +1,5 @@
+![.NET Core](https://github.com/Sarius587/Personal-Website/workflows/.NET%20Core/badge.svg?branch=master)
+
 # Personal-Website
 My personal portfolio website using ASP.Net Core
 

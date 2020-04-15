@@ -24,6 +24,26 @@ namespace PersonalWebsite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CustomExperienceImages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<byte[]>(nullable: true),
+                    AdditionalRepositoryDataId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomExperienceImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CustomExperienceImages_AdditionalData_AdditionalRepositoryDataId",
+                        column: x => x.AdditionalRepositoryDataId,
+                        principalTable: "AdditionalData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Repositories",
                 columns: table => new
                 {
@@ -46,6 +66,11 @@ namespace PersonalWebsite.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CustomExperienceImages_AdditionalRepositoryDataId",
+                table: "CustomExperienceImages",
+                column: "AdditionalRepositoryDataId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Repositories_AdditionalRepositoryDataId",
                 table: "Repositories",
                 column: "AdditionalRepositoryDataId");
@@ -53,6 +78,9 @@ namespace PersonalWebsite.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CustomExperienceImages");
+
             migrationBuilder.DropTable(
                 name: "Repositories");
 

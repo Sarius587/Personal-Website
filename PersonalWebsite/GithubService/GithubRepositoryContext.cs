@@ -31,6 +31,8 @@ namespace PersonalWebsite.GithubService
         public DbSet<GithubRepository> Repositories { get; set; }
 
         public DbSet<AdditionalRepositoryData> AdditionalData { get; set; }
+
+        public DbSet<CustomExperienceImage> CustomExperienceImages { get; set; }
     }
 
     public class GithubRepository
@@ -95,6 +97,9 @@ namespace PersonalWebsite.GithubService
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime LastEdit { get; set; }
 
+        public ICollection<CustomExperienceImage> CustomExperienceImages { get; set; }
+
+
         public HtmlString CustomExperienceHtml
         {
             get
@@ -115,5 +120,12 @@ namespace PersonalWebsite.GithubService
     {
         Markdown,
         Html
+    }
+
+    public class CustomExperienceImage
+    {
+        public int Id { get; set; }
+
+        public byte[] Content { get; set; }
     }
 }

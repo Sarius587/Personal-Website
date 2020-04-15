@@ -23,3 +23,11 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Pack
+      run: | 
+        mkdir ${{ github.workspace }}/package
+        dotnet pack --no-build -c Release --output "${{ github.workspace }}/package"
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Personal-Website
+        path: "${{ github.workspace }}/package"
