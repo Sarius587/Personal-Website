@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -66,22 +67,35 @@ namespace PersonalWebsite.Areas.Projects.Pages
                 dataToChange.CustomExperienceImages = new List<CustomExperienceImage>();
             }
 
-            foreach (var image in Upload.PostImages)
+            if (Upload.PostImages != null)
             {
-                // Process uploaded file (check for limitations, validate header bytes, etc)
-                var fileContent = await FileHelpers.ProcessFormFile<CustomExperienceUpload>(image, ModelState, _permittedExtensions, _fileSizeLimit);
-
-                if (!ModelState.IsValid)
+                foreach (var image in Upload.PostImages)
                 {
-                    return Page();
+                    // Process uploaded file (check for limitations, validate header bytes, etc)
+                    var fileContent = await FileHelpers.ProcessFormFile<CustomExperienceUpload>(image, ModelState, _permittedExtensions, _fileSizeLimit);
+
+                    if (!ModelState.IsValid)
+                    {
+                        return Page();
+                    }
+
+                    // Maybe perform virus scan
+
+                    dataToChange.CustomExperienceImages.Add(new CustomExperienceImage { Content = fileContent });
                 }
-
-                // Maybe perform virus scan
-
-                dataToChange.CustomExperienceImages.Add(new CustomExperienceImage { Content = fileContent });
             }
 
             await _context.SaveChangesAsync();
+
+            Regex findImages = new Regex("<img.*?/>", RegexOptions.Singleline | RegexOptions.Compiled);
+            var match = findImages.Match(Upload.AdditionalRepositoryData.CustomExperience);
+
+            while (match.Success)
+            {
+                int index = match.Value.IndexOf("src=\"");
+
+                match = match.NextMatch();
+            }
 
             
             dataToChange.CustomExperience = Upload.AdditionalRepositoryData.CustomExperience;

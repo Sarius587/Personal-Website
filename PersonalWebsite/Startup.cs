@@ -52,8 +52,8 @@ namespace PersonalWebsite
             });
 
 
-            services.AddHttpClient<GithubClient>();
-            services.AddHostedService<GithubUpdateService>();
+            // services.AddHttpClient<GithubClient>();
+            // services.AddHostedService<GithubUpdateService>();
             services.AddDbContext<GithubRepositoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GithubRepositoryContext")));
         }
 

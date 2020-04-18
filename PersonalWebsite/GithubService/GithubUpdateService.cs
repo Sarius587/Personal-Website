@@ -92,17 +92,14 @@ namespace PersonalWebsite.GithubService
                         });
                     }
                 }
-
-                
-            
                 
                 IList<GithubRepository> db_repos = await context.Repositories.ToListAsync();
 
                 var add_list = repos.Except(db_repos);
                 var remove_list = db_repos.Except(repos);
 
-                context.Repositories.AddRange(add_list);
                 context.Repositories.RemoveRange(remove_list);
+                context.Repositories.AddRange(add_list);
                 await context.SaveChangesAsync();
             }
         }
